@@ -5,6 +5,7 @@ description: "SAPL is a powerful policy language and engine to implement Attribu
 nav_order: 1
 has_children: true
 permalink: /docs/3.0.0-SNAPSHOT-MD/
+has_toc: false
 ---
 
 # SAPL Reference
@@ -24,3 +25,5 @@ jtd.addEvent(toggleDarkMode, 'click', function(){
   }
 });
 </script>
+
+SAPL-Reference Version: 3.0.0-SNAPSHOT
