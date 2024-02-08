@@ -61,13 +61,13 @@ jobs:
           bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
-      #- name: Build Reference
-      #  run: |
-      #    cd ./md-files/saplReference
-      #    gem install bundler
-      #    bundle install
-      #    bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}/docs/3.0.0-SNAPSHOT-MD" --config ./_config.yml
-      #    cp -r ./_site/docs/3.0.0-SNAPSHOT-MD/* ../../_site/docs/3.0.0-SNAPSHOT-MD/
+      - name: Build Reference
+        run: |
+          cd ./md-files/saplReference
+          gem install bundler
+          bundle install
+          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}/docs/3.0.0-SNAPSHOT-MD" --config ./_config.yml
+          cp -r ./_site/docs/3.0.0-SNAPSHOT-MD/* ../../_site/docs/3.0.0-SNAPSHOT-MD/
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
         uses: actions/upload-pages-artifact@v3
