@@ -70,7 +70,7 @@ jobs:
           ls -hal
           ls -hal ../
           ls -hal ../../
-          cp -r ./_site/docs/3.0.0-SNAPSHOT-MD/* ../../docs/3.0.0-SNAPSHOT-MD
+          cp -r ./_site/docs/3.0.0-SNAPSHOT-MD/* ../../_site/docs/3.0.0-SNAPSHOT-MD
       #- name: Commit and Push Changes
       #  run: |
       #    git config --global user.email "ha247@t-online.de"
