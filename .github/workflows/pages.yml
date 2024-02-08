@@ -1,3 +1,9 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy SAPL site to Pages
 
 on:
@@ -8,6 +14,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
@@ -15,55 +27,60 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-first-website:
+  # Build job
+  build:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@8575951200e472d5f2d95c625da0c7bec8217c42 # v1.161.0
         with:
-          ruby-version: '3.1'
+          ruby-version: '3.1' # Not needed with a .ruby-version file
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          cache-version: 0 # Increment this number if you need to re-download cached gems
       - name: Create symlink
         run: |
           latest_doc=$(ls -1d docs/*/ | sort | tail -n 1)
           ln -s $(basename $latest_doc) docs/latest
-      - name: Install dependencies
-        run: bundle install
-
-      - name: Build first website
-        run: bundle exec jekyll build
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v4
+        with:
+          enablement: true
+      - name: Build with Jekyll
+        # Outputs to the './_site' directory by default
+        run: |
+          gem install bundler
+          bundle install
+          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
         env:
           JEKYLL_ENV: production
+      - name: Build Reference
+        run: |
+          cd ./md-files/saplReference
+          gem install bundler
+          bundle install
+          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+          mv ./_site/assets ./_site/docs/3.0.0-SNAPSHOT-MD/
+          cp -r ./_site/docs/3.0.0-SNAPSHOT-MD/* ../../_site/docs/3.0.0-SNAPSHOT-MD/
+      - name: Upload artifact
+        # Automatically uploads an artifact from the './_site' directory by default
+        uses: actions/upload-pages-artifact@v3
 
-      - name: Deploy first website
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-
-  Build-second-website:
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    needs: build
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'
-
-      - name: Install dependencies
-        run: bundle install
-
-      - name: Build second website
-        run: bundle exec jekyll build --config md-files/saplReference/_config.yml
-        env:
-          JEKYLL_ENV: production
-
-      - name: Deploy second website
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./md-files/saplReference/_site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
