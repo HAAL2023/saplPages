@@ -4,7 +4,7 @@ title: Reference Architecture
 has_children: true
 parent: SAPL Reference
 nav_order: 2
-permalink: /docs/3.0.0-SNAPSHOT-MD/Reference-Architecture
+permalink: /Reference-Architecture
 has_toc: false
 ---
 
@@ -15,4 +15,4 @@ The architecture of the SAPL policy engine is follows the terminology defined by
 
 
 
-![SAPL_Architecture.svg](/sapl-reference/assets/sapl_reference_images/SAPL_Architecture.svg)
+![SAPL_Architecture.svg](/assets/sapl_reference_images/SAPL_Architecture.svg)

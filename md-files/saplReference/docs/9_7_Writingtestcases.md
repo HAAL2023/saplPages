@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Writing test cases
-permalink: /docs/3.0.0-SNAPSHOT-MD/Writing-test-cases/
+permalink: /Writing-test-cases/
 parent: Testing SAPL policies
 grand_parent: SAPL Reference
 nav_order: 7
@@ -17,7 +17,7 @@ The Step-Builder-Pattern is used for defining the concrete test case. It consist
 - Verify-Step: Verify the generated `AuthorizationDecision`
 <br><br>
 
-![StepBuilderPatternForSaplTest_English](/sapl-reference/assets/sapl_reference_images/StepBuilderPatternForSaplTest_English.svg)
+![StepBuilderPatternForSaplTest_English](/assets/sapl_reference_images/StepBuilderPatternForSaplTest_English.svg)
 
 <br><br>
 Starting with constructTestCaseWithMocks() or constructTestCase() called on the fixture, the test case definition process is started at the Given-Step or the When-Step.
