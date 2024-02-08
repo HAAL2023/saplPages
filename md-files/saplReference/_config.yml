@@ -25,7 +25,7 @@ baseurl: ""
 #url: "https://haal2023.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 url: "https://heutelbeck.github.io"
 #url: ""
-destination: "/docs/3.0.0-SNAPSHOT-MD"
+
 repository: heutelbeck/sapl-policy-engine # for github-metadata
 
 permalink: pretty
